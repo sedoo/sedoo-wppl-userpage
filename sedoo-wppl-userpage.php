@@ -51,55 +51,121 @@ function userpage_extract_html($html, $element) {
 // }
 // add_filter('user_row_actions', 'sedoo_userpage_new_action', 10, 2);
 
+// recover LDAP OMP INFORMATIONS
+
+function sedoo_userpage_recover_ldap_fields($user_id) {
+
+    $wp_user_info = get_userdata($user_id);
+    $wp_user_email = $wp_user_info->user_email;
+
+    $fileLDAP=fopen("https://annuaire.obs-mip.fr/listeWithPageProfil.csv", "r");
+
+    $result = false;
+    while ($row = fgetcsv($fileLDAP, 1000, ";")) {
+        if ($row[3] == $wp_user_email) {
+            $result = $row;
+            break;
+        }
+    }
+    fclose($fileLDAP);
+    return $result;
+}
+
 add_action('profile_update', 'sedoo_userpage_update_extra_profile_fields', 10, 2);
 function sedoo_userpage_update_extra_profile_fields($user_id) {  
 
+    $userLDAPinfo = sedoo_userpage_recover_ldap_fields($user_id);
+
+    if (array_key_exists (0, $userLDAPinfo)){$labo=$userLDAPinfo[0];}
+    // if (array_key_exists (1, $userLDAPinfo)){$nom=$userLDAPinfo[1];}                 // USE WP USER INFORMATION
+    // if (array_key_exists (2, $userLDAPinfo)){$prenom=$userLDAPinfo[2];}              // USE WP USER INFORMATION
+    // if (array_key_exists (3, $userLDAPinfo)){$mail=explode("@", $userLDAPinfo[3]);}  // USE WP USER INFORMATION
+    if (array_key_exists (4, $userLDAPinfo)){$tel=$userLDAPinfo[4];}
+    if (array_key_exists (5, $userLDAPinfo)){$bureau=$userLDAPinfo[5];}
+    if (array_key_exists (6, $userLDAPinfo)){$site=$userLDAPinfo[6];}
+    if (array_key_exists (7, $userLDAPinfo)){$status=$userLDAPinfo[7];}
+    if (array_key_exists (8, $userLDAPinfo)){$equipe=$userLDAPinfo[8];}
+  
+    $administrativeInformation = "<p><b>Tel :</b>".$tel."</p>\n<p><b>Bureau :</b>".$bureau."</p>\n<p><b>Site :</b>".$site."</p>\n<p><b>Status :</b>".$status."</p>\n<p><b>Equipe :</b>".$equipe."</p>";
+
+    if ( current_user_can('edit_user',$user_id) ) {
+        // if (get_user_meta($user_id, 'ldap_field', true) == "") {
+            update_user_meta($user_id, 'ldap_field', ''.$administrativeInformation.'');
+        // }
+    }
+
+    // GET FIRST NAME & LAST NAME FROM WP USERMETA
+    $firstName = get_user_meta($user_id, 'first_name', true);
+    $lastName = get_user_meta($user_id, 'last_name', true);
+    // remplacement DE TOUS LES ESPACES par des "-" sur NOM PRENOM
+    $firstName_url=str_replace(" ", "-", $firstName);
+    $lastName_url=str_replace(" ", "-", $lastName);
+
+    // URL LABO
+    $url_labo=array(
+        "CESBIO" => "https://www.cesbio.cnrs.fr",
+        "ECOLAB" => "http://www3.obs-mip.fr/ecolab/",
+        "GET" => "http://www3.obs-mip.fr/get/",
+        "IRAP" => "http://www3.obs-mip.fr/irap/",
+        "LA" => "http://www3.obs-mip.fr/la/",
+        "LEGOS" => "http://www.legos.obs-mip.fr/",
+        "TBL" => "http://tbl.omp.eu/",
+        "UMS831" => "http://www.obs-mip.fr/",
+    );
+
+    // GENERATE URL_PROFIL TO GET CONTENT
+    $urlProfil = $url_labo[$labo]."profils/".$lastName_url."_".$firstName_url;
+
     // Create DOM from URL or file
     $html = new simple_html_dom();
-    $html = file_get_html("http://www.get.obs-mip.fr/profils/Aretz_Markus");
+    $html = file_get_html($urlProfil);
+    // var_dump($html);
 
-    //******************************* REMOVE ATTR <A> eZTOC  ******************************* -->
-    foreach($html->find('a') as $e) {
-        // remove attributes
-        if (isset($e->id)){
-            $e->id = null;
+    if ($html == true) {
+        //******************************* REMOVE ATTR <A> eZTOC  ******************************* -->
+        foreach($html->find('a') as $e) {
+            // remove attributes
+            if (isset($e->id)){
+                $e->id = null;
+            }
+            if (isset($e->name)){
+                $e->name = null;
+            }
         }
-        if (isset($e->name)){
-            $e->name = null;
+        $cv = userpage_extract_html($html, 'div#tab1');
+        $research = userpage_extract_html($html, 'div#tab2');
+        $responsabilites = userpage_extract_html($html, 'div#tab3');
+        $publications = userpage_extract_html($html, 'div#tab4');
+        $projets = userpage_extract_html($html, 'div#tab5');
+        $enseignement = userpage_extract_html($html, 'div#tab6');
+        $rsxMetiers = userpage_extract_html($html, 'div#tab7');
+        
+        if ( current_user_can('edit_user',$user_id) ) {
+            if (get_user_meta($user_id, 'cv_fonctions', true) == "") {
+                update_user_meta($user_id, 'cv_fonctions', ''.$cv.'');
+            }
+            if (get_user_meta($user_id, 'travaux_de_recherche', true) == "") {
+            update_user_meta($user_id, 'travaux_de_recherche', ''.$research.'');
+            }
+            if (get_user_meta($user_id, 'responsabilites', true) == "") {
+                update_user_meta($user_id, 'responsabilites', ''.$responsabilites.'');
+            }
+            if (get_user_meta($user_id, 'publis', true) == "") {
+                update_user_meta($user_id, 'publis', ''.$publications.'');
+            }
+            if (get_user_meta($user_id, 'projets', true) == "") {
+                update_user_meta($user_id, 'projets', ''.$projets.'');
+            }
+            if (get_user_meta($user_id, 'enseignement', true) == "") {
+                update_user_meta($user_id, 'enseignement', ''.$enseignement.'');
+            }
+            if (get_user_meta($user_id, 'rsx_metiers', true) == "") {
+                update_user_meta($user_id, 'rsx_metiers', ''.$rsxMetiers.'');
+            }
         }
-    }
-    $cv = userpage_extract_html($html, 'div#tab1');
-    $research = userpage_extract_html($html, 'div#tab2');
-    $responsabilites = userpage_extract_html($html, 'div#tab3');
-    $publications = userpage_extract_html($html, 'div#tab4');
-    $projets = userpage_extract_html($html, 'div#tab5');
-    $enseignement = userpage_extract_html($html, 'div#tab6');
-    $rsxMetiers = userpage_extract_html($html, 'div#tab7');
-    
-    if ( current_user_can('edit_user',$user_id) ) {
-        if (get_user_meta($user_id, 'cv_fonctions') == "") {
-            update_user_meta($user_id, 'cv_fonctions', ''.$cv.'');
-        }
-        if (get_user_meta($user_id, 'travaux_de_recherche') == "") {
-        update_user_meta($user_id, 'travaux_de_recherche', ''.$research.'');
-        }
-        if (get_user_meta($user_id, 'responsabilites') == "") {
-            update_user_meta($user_id, 'responsabilites', ''.$responsabilites.'');
-        }
-        if (get_user_meta($user_id, 'publis') == "") {
-            update_user_meta($user_id, 'publis', ''.$publications.'');
-        }
-        if (get_user_meta($user_id, 'projets') == "") {
-            update_user_meta($user_id, 'projets', ''.$projets.'');
-        }
-        if (get_user_meta($user_id, 'enseignement') == "") {
-            update_user_meta($user_id, 'enseignement', ''.$enseignement.'');
-        }
-        if (get_user_meta($user_id, 'rsx_metiers') == "") {
-            update_user_meta($user_id, 'rsx_metiers', ''.$rsxMetiers.'');
-        }
-    }
-         
+    // } else {
+    //     echo "<h1>NO CONTENT AVAILABLE</h1>";
+    } 
 }
 
 
