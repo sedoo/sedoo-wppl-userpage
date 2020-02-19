@@ -86,13 +86,10 @@ function sedoo_userpage_update_extra_profile_fields($user_id) {
     if (array_key_exists (7, $userLDAPinfo)){$status=$userLDAPinfo[7];}
     if (array_key_exists (8, $userLDAPinfo)){$equipe=$userLDAPinfo[8];}
   
+    // force insert LDAP informations !!! user can't modify this field content !!!
     $administrativeInformation = "<p><b>Tel :</b>".$tel."</p>\n<p><b>Bureau :</b>".$bureau."</p>\n<p><b>Site :</b>".$site."</p>\n<p><b>Status :</b>".$status."</p>\n<p><b>Equipe :</b>".$equipe."</p>";
+    update_user_meta($user_id, 'ldap_field', ''.$administrativeInformation.'');
 
-    if ( current_user_can('edit_user',$user_id) ) {
-        // if (get_user_meta($user_id, 'ldap_field', true) == "") {
-            update_user_meta($user_id, 'ldap_field', ''.$administrativeInformation.'');
-        // }
-    }
 
     // GET FIRST NAME & LAST NAME FROM WP USERMETA
     $firstName = get_user_meta($user_id, 'first_name', true);
@@ -103,14 +100,14 @@ function sedoo_userpage_update_extra_profile_fields($user_id) {
 
     // URL LABO
     $url_labo=array(
-        "CESBIO" => "https://www.cesbio.cnrs.fr",
+        // "CESBIO" => "https://www.cesbio.cnrs.fr",
         "ECOLAB" => "http://www3.obs-mip.fr/ecolab/",
         "GET" => "http://www3.obs-mip.fr/get/",
         "IRAP" => "http://www3.obs-mip.fr/irap/",
         "LA" => "http://www3.obs-mip.fr/la/",
-        "LEGOS" => "http://www.legos.obs-mip.fr/",
-        "TBL" => "http://tbl.omp.eu/",
-        "UMS831" => "http://www.obs-mip.fr/",
+        // "LEGOS" => "http://www.legos.obs-mip.fr/",
+        // "TBL" => "http://tbl.omp.eu/",
+        // "UMS831" => "http://www.obs-mip.fr/",
     );
 
     // GENERATE URL_PROFIL TO GET CONTENT
@@ -183,11 +180,11 @@ function sedoo_userpage_template_loader( $template ) {
     } 
 
     if ( $file ) {
-        $template       = locate_template( array_unique( $find ) );
-        if ( ! $template ) { 
+        // $template       = locate_template( array_unique( $find ) );
+        // if ( ! $template ) { 
             // if not found in theme, will use your plugin version
             $template = untrailingslashit( plugin_dir_path( __FILE__ ) ) . '/templates/' . $file;
-        }
+        //}
     }
 
     return $template;

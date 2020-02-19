@@ -11,83 +11,90 @@
  *
  * @package labs_by_Sedoo
  */
+// get the current taxonomy term
+$userObject = get_queried_object()->data;
 
 get_header();
 ?>
 
 	<div id="primary" class="content-area">
 		<main id="main" class="site-main">
+        <?php 
+        var_dump($userObject); 
+        ?>
             <div class="wrapper-layout">
                 <?php //if (have_posts()): the_post(); ?>
                 <div class="author-header">
                     <h1> 
                         <?php
-                            echo get_the_author_meta('user_firstname', get_the_author_meta('ID'));
+                            the_author_meta('user_firstname', $userObject->ID);
                         ?> 
                         <?php
-                            echo get_the_author_meta('user_lastname');    
+                            the_author_meta('user_lastname', $userObject->ID);    
                         ?>
                     </h1>
-                    <p class="h2"><?php //the_field('poste', 'user_'.get_the_author_meta('ID'));?>
-                        Chercheur IRAP<br>
-                        <small>Galaxies, Astrophysique des Hautes Energies et Cosmologie</small>
+                    <p class="h2"><?php the_field('poste', 'user_'.$userObject->ID);?>
                     </p>
                     
                 </div>
                 <div class="author-card">
                     <div>
                         <div class="img-author">
-                            <img src="<?php echo get_template_directory_uri() . '/image/john-doe.jpg'; ?>"/>
+                            
+                            <img src="<?php the_field('photo_auteur', 'user_'.$userObject->ID); ?>"/>
                         </div>
                         <div>
                             <p><b>Email :</b>
                                 <a href="mailto:<?php echo get_the_author_meta('user_email'); ?>">
-                                    <?php echo get_the_author_meta('user_email'); ?>
+                                    <?php echo get_the_author_meta('user_email', $userObject->ID); ?>
                                 </a>
                             </p>
+                            <?php the_field('ldap_field', 'user_'.$userObject->ID); ?>
                             <p><b>Téléphone :</b>
                                 <a href="tel:<?php echo get_the_author_meta('user_phone'); ?>">
-                                    <?php echo get_the_author_meta('user_phone'); ?>
+                                    <?php echo get_the_author_meta('user_phone', $userObject->ID); ?>
                                 </a>
                             </p>
-                            <p><b>Bureau :</b>308</p>
-                            <p><b>Insitution :</b>OMP</p>
-                            <p><b>Adresse professionnelle :</b>14 avenue Édouard Belin, 31400 Toulouse</p>
-                            <p><b>Site web personnel :</b><a href="<?php echo get_the_author_meta('user_url'); ?>" target="_blank"><?php echo get_the_author_meta('user_url'); ?></a></p>
+                            <p><b>Adresse professionnelle :</b><?php the_field('adresse_pro', 'user_'.$userObject->ID); ?></p>
+                            <p><b>Site web personnel :</b>
+                            <a href="<?php the_field('url_site_perso', 'user_'.$userObject->ID); ?>" target="_blank"><?php the_field('url_site_perso', 'user_'.$userObject->ID); ?></a></p>
                         </div>
                     </div>
                     <div>
                         <h2>À propos de l'auteur</h2>
-                        <p><?php //echo get_the_author_meta('user_description'); ?>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In scelerisque turpis et arcu fermentum, eu scelerisque odio accumsan. Mauris neque sem, pulvinar nec felis ultricies, varius sagittis neque. Ut molestie neque id dui tincidunt venenatis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus vitae sollicitudin dui. Phasellus ac tempus dui. Morbi iaculis nulla ac nisl scelerisque euismod. Quisque nec massa id arcu finibus scelerisque ac quis mauris. Pellentesque imperdiet tincidunt lacus, ac porttitor nibh pulvinar semper. Sed aliquam auctor augue, vel fermentum nulla varius quis. Sed fermentum nunc a quam pulvinar imperdiet. Etiam luctus pretium convallis. Praesent sed congue orci. Proin fermentum sem id nunc dignissim mollis. Sed viverra lacus vel felis placerat ornare. Cras tincidunt non sem eget vehicula. 
+                        <p>
+                        <?php echo get_the_author_meta('user_description', $userObject->ID); ?>
                         </p>
                     </div>
                 </div>
                 <section class="author-content wrapper-content">
                     <div>
                         <h2>CV / Fonctions</h2>
-                       
+                        <?php the_field('cv_fonctions', 'user_'.$userObject->ID);?>
                     </div>
                     <div>
                         <h2>Recherche</h2>
-                        
+                        <?php the_field('travaux_de_recherche', 'user_'.$userObject->ID);?>
                     </div>
                     <div>
                         <h2>Responsabilités</h2>
-                        
+                        <?php the_field('responsabilites', 'user_'.$userObject->ID);?>
                     </div>
                     <div>
                         <h2>Principales publications</h2>
-                        
+                        <?php the_field('publis', 'user_'.$userObject->ID);?>
                     </div>
                     <div>
                         <h2>Projets</h2>
+                        <?php the_field('projets', 'user_'.$userObject->ID);?>
                     </div>
                     <div>
                         <h2>Enseignement</h2>
+                        <?php the_field('enseignement', 'user_'.$userObject->ID);?>
                     </div>
                     <div>
                         <h2>Réseaux Métiers</h2>
+                        <?php the_field('rsx_metiers', 'user_'.$userObject->ID);?>
                     </div>
                 </section>
                                 
