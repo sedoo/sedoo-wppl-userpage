@@ -20,7 +20,7 @@ get_header();
 	<div id="primary" class="content-area">
 		<main id="main" class="site-main">
         <?php 
-        var_dump($userObject); 
+        // var_dump($userObject); 
         ?>
             <div class="wrapper-layout">
                 <?php //if (have_posts()): the_post(); ?>
@@ -50,11 +50,6 @@ get_header();
                                 </a>
                             </p>
                             <?php the_field('ldap_field', 'user_'.$userObject->ID); ?>
-                            <p><b>Téléphone :</b>
-                                <a href="tel:<?php echo get_the_author_meta('user_phone'); ?>">
-                                    <?php echo get_the_author_meta('user_phone', $userObject->ID); ?>
-                                </a>
-                            </p>
                             <p><b>Adresse professionnelle :</b><?php the_field('adresse_pro', 'user_'.$userObject->ID); ?></p>
                             <p><b>Site web personnel :</b>
                             <a href="<?php the_field('url_site_perso', 'user_'.$userObject->ID); ?>" target="_blank"><?php the_field('url_site_perso', 'user_'.$userObject->ID); ?></a></p>
