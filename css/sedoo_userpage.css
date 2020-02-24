@@ -1,0 +1,117 @@
+.user-page {
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: center;
+    align-items: center;
+    max-width: 1400px;
+    margin: auto;
+}
+
+.user-page .user-informations {
+    margin:0 auto;
+}
+
+.user-page .user-informations figure {
+    height: 250px;
+    width: 250px;
+    overflow: hidden;
+    margin:auto;
+    border-radius: 50%;
+}
+.user-page .user-informations figure img{
+    object-fit: cover;
+}
+.user-page > section {
+    flex:1 1 500px;
+}
+
+.user-page .user-administratives-informations {
+    padding: 20px;
+    color:#FFF;
+}
+
+.user-page .user-administratives-informations -moz::selection,
+.user-page .user-administratives-informations ::selection {
+    background:#FFF;
+    color: #000;
+}
+
+.user-page .user-siteperso:hover {
+	color:#FFF;
+}
+
+.user-page .deploy {
+    display: none;
+}
+
+.user-page .author-content {
+    padding: 20px;
+}
+
+/*************    TABS    **************/
+
+.user-tabs {
+	list-style-type:none;
+	position:relative;
+	max-width:1200px;
+}
+
+.user-tabs label {
+	display:block;
+	padding:5px 20px;
+	border-radius:5px;
+	background:#eee;
+	margin-top:5px;
+	cursor:pointer; /* changement de curseur de souris */
+}
+
+[type="radio"]:checked + label {
+	border-radius:5px 5px 0 0;
+}
+
+.user-tabs label:hover,
+.user-tabs [type="radio"]:checked + label {
+	color:#FFF;
+}
+
+.user-tabs article,
+.user-page .user-tabs [type="radio"] {
+	display:none;
+	padding:20px;
+}
+
+.user-tabs article {
+	border-radius:0 0 5px 5px;
+	margin-bottom:10px;
+}
+
+.user-tabs [type="radio"]:checked ~ article {
+	display:block;
+}
+
+
+/* @media (min-width:400px) {
+	.user-tabs label {	
+		float:left;
+		border-radius:5px 5px 0 0;
+		margin-top:0;
+		margin-right:1px;
+	}
+	
+	.user-tabs article {
+		clear:both;
+		position:absolute;
+		top:29px;
+		border-radius:0 5px 5px 5px;
+		margin-bottom:0;
+	}	
+} */
+/***************************/
+
+
+.hideEmail {
+    display: none;
+}
+
+
