@@ -31,9 +31,14 @@
     color:#FFF;
 }
 
-.user-page .user-administratives-informations :focus {
+.user-page .user-administratives-informations -moz::selection,
+.user-page .user-administratives-informations ::selection {
     background:#FFF;
     color: #000;
+}
+
+.user-page .user-siteperso:hover {
+	color:#FFF;
 }
 
 .user-page .deploy {

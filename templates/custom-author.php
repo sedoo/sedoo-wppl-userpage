@@ -20,9 +20,14 @@ get_header();
 	<div id="primary" class="content-area">
 		<main id="main" class="site-main user-page">
             <div class="user-informations">
+                <?php if (get_field('photo_auteur', 'user_'.$userObject->ID)) {
+                ?>
                 <figure>
                     <img src="<?php the_field('photo_auteur', 'user_'.$userObject->ID); ?>"/>
                 </figure>
+                <?php
+                }
+                ?>
                 <h1> 
                     <?php
                         the_author_meta('user_firstname', $userObject->ID);
@@ -43,7 +48,7 @@ get_header();
                     <?php the_field('ldap_field', 'user_'.$userObject->ID); ?>
                     <p><b>Adresse professionnelle :</b><?php the_field('adresse_pro', 'user_'.$userObject->ID); ?></p>
                     <p>
-                    <a href="<?php the_field('url_site_perso', 'user_'.$userObject->ID); ?>" target="_blank"><b>Site web personnel >></b></a></p>
+                    <a class="user-siteperso" href="<?php the_field('url_site_perso', 'user_'.$userObject->ID); ?>" target="_blank"><b>>> Site web personnel</b></a></p>
                 </div>
 
             </div>
@@ -53,44 +58,8 @@ get_header();
                     <p>
                     <?php echo get_the_author_meta('user_description', $userObject->ID); ?>
                     </p>
-                </section>
-                
-                    <?php 
-                    // // SHOW CV/ FUNCTIONS ITEM MENU
-                    // if (get_field('cv_fonctions', 'user_'.$userObject->ID)) {
-                    //     sedoo_userpage_displayACF_menuContent('cv_fonctions', $userObject->ID);
-                    // } 
-
-                    // // SHOW RESEARCH ITEM MENU
-                    // if (get_field('travaux_de_recherche', 'user_'.$userObject->ID)) {
-                    //     sedoo_userpage_displayACF_menuContent('travaux_de_recherche', $userObject->ID);
-                    // } 
-
-                    // // SHOW RESPONSABILITIES ITEM MENU
-                    // if (get_field('responsabilites', 'user_'.$userObject->ID)) {
-                    //     sedoo_userpage_displayACF_menuContent('responsabilites', $userObject->ID);
-                    // }
-
-                    // // SHOW PUBLICATIONS ITEM MENU
-                    // if (get_field('publis', 'user_'.$userObject->ID)) {
-                    //     sedoo_userpage_displayACF_menuContent('publis', $userObject->ID);
-                    // }
-
-                    // // SHOW PROJECTS ITEM MENU
-                    // if (get_field('projets', 'user_'.$userObject->ID)) {
-                    //     sedoo_userpage_displayACF_menuContent('projets', $userObject->ID);
-                    // }
+                </section>             
                     
-                    // // SHOW TEACHING ITEM MENU
-                    // if (get_field('enseignement', 'user_'.$userObject->ID)) {
-                    //     sedoo_userpage_displayACF_menuContent('enseignement', $userObject->ID);
-                    // } 
-
-                    // // SHOW RSX METIERS ITEM MENU
-                    // if (get_field('rsx_metiers', 'user_'.$userObject->ID)) {
-                    //     sedoo_userpage_displayACF_menuContent('rsx_metiers', $userObject->ID);
-                    // } 
-                    ?>
                 
                 <nav class="user-tabs" role="tablist">
                 <?php
