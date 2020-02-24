@@ -7,7 +7,7 @@
  * Author URI:      https://www.sedoo.fr 
  * Text Domain:     sedoo-wppl-userpage
  * Domain Path:     /languages
- * Version:         0.1.0
+ * Version:         0.2.0
  * GitHub Plugin URI: sedoo/sedoo-wppl-userpage
  * GitHub Branch:     master
  * @package         Sedoo_Wppl_Userpage
@@ -18,6 +18,31 @@
  * REGISTER ACF fields 
  */
 include(plugin_dir_path(__FILE__).'inc/sedoo-wppl-acf-config.php');
+
+// LOAD CSS & SCRIPTS 
+function sedoo_userpage_scripts() {
+    wp_register_style( 'prefix-style', plugins_url('css/sedoo_userpage.css', __FILE__) );
+    wp_enqueue_style( 'prefix-style' );
+}
+add_action('wp_enqueue_scripts','sedoo_userpage_scripts');
+function sedoo_userpage_color_style() {
+    $code_color = get_theme_mod( 'labs_by_sedoo_color_code' );
+    ?>
+    <style type="text/css">
+    :root {
+        --main-color:<?php echo $code_color;?>;
+    }
+
+    .user-administratives-informations,
+    .user-tabs [type="radio"]:checked + label,
+    .user-tabs label:hover {
+        background:var(--main-color);
+    }
+
+    <?php
+    
+}
+add_action( 'wp_head', 'sedoo_userpage_color_style');
 
 /**
  * INSERT USER CUSTOM FIELD 
@@ -87,7 +112,7 @@ function sedoo_userpage_update_extra_profile_fields($user_id) {
     if (array_key_exists (8, $userLDAPinfo)){$equipe=$userLDAPinfo[8];}
   
     // force insert LDAP informations !!! user can't modify this field content !!!
-    $administrativeInformation = "<p><b>Tel :</b>".$tel."</p>\n<p><b>Bureau :</b>".$bureau."</p>\n<p><b>Site :</b>".$site."</p>\n<p><b>Status :</b>".$status."</p>\n<p><b>Equipe :</b>".$equipe."</p>";
+    $administrativeInformation = "<p><b>Tel :</b>".$tel."</p>\n<p><b>Bureau :</b>".$bureau.", ".$site."</p>\n<div class=\"deploy\"><p><b>Status :</b>".$status."</p></div>";
     update_user_meta($user_id, 'ldap_field', ''.$administrativeInformation.'');
 
 
@@ -189,3 +214,39 @@ function sedoo_userpage_template_loader( $template ) {
 
     return $template;
 }
+
+// Display content ACF
+
+function sedoo_userpage_displayACF_title($fieldName) {
+    $title = array(
+        'cv_fonctions'          => __('CV / functions', 'sedoo-wppl-labtools' ),
+        'travaux_de_recherche'  => __('Research', 'sedoo-wppl-labtools' ),
+        'responsabilites'       => __('Responsabilities', 'sedoo-wppl-labtools' ),
+        'publis'                => __('Publications', 'sedoo-wppl-labtools' ),
+        'projets'               => __('Projects', 'sedoo-wppl-labtools' ),
+        'enseignement'          => __('Teaching', 'sedoo-wppl-labtools' ),
+        'rsx_metiers'           => __('Network', 'sedoo-wppl-labtools' ),
+    
+    );
+    return $title[$fieldName];
+}
+
+function sedoo_userpage_displayACF_menuContent($fieldName, $userID) { 
+    ?>
+    <li><a href="#<?php echo $fieldName;?>" ><?php echo sedoo_userpage_displayACF_title($fieldName);?> </a></li>
+    <?php
+}
+
+function sedoo_userpage_displayACF_content($fieldName, $userID, $checked) {
+
+if (get_field($fieldName, 'user_'.$userID) ) { ?>
+    <section id="<?php echo $fieldName;?>_section">
+        <input type="radio" name="tabs" id="<?php echo $fieldName;?>" />
+        <label for="<?php echo $fieldName;?>" id="<?php echo $fieldName;?>Tab" role="tab" aria-controls="<?php echo $fieldName;?>panel"><?php echo sedoo_userpage_displayACF_title($fieldName);?></label>
+        <article id="<?php echo $fieldName;?>panel" role="tabpanel" aria-labelledby="<?php echo $fieldName;?>Tab">
+            <?php the_field($fieldName, 'user_'.$userID);?>
+        </article>
+    </section>
+    <?php } 
+}
+
