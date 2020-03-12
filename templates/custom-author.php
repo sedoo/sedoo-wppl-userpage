@@ -21,6 +21,8 @@ get_header();
 		<main id="main" class="site-main user-page">
             <div class="user-informations">
                 <?php if (get_field('photo_auteur', 'user_'.$userObject->ID)) {
+                    $userImage=get_field('photo_auteur', 'user_'.$userObject->ID);
+                    // var_dump($userImage);
                 ?>
                 <figure>
                     <img src="<?php the_field('photo_auteur', 'user_'.$userObject->ID); ?>"/>
