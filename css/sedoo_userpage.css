@@ -91,6 +91,54 @@
 }
 
 
+.sedoo_userpage_ul {
+    margin:10px;
+}
+
+.sedoo_userpage_ul li {
+    padding: 5px;
+}
+
+.sedoo_userpage_ul li:hover  {
+    background:#f9f9f9;
+}
+
+.sedoo_userpage_ul li span{
+    margin-right: 5px;
+}
+
+/*  affichage en ligne */
+.sedoo_userpage_ul.sedoo_line li{
+	display: inline-block;
+	text-align: center;
+}
+
+.sedoo_userpage_ul.sedoo_line p{
+    text-align: center;;
+}
+
+.sedoo_userpage_ul.sedoo_line li .dashicons{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.sedoo_userpage_ul.sedoo_line .sedoo_userpage_span_post {
+	display: block;
+    font-size: .8em;
+}
+
+/* affichage en colonne */
+.sedoo_userpage_ul.sedoo_column p{
+	display: inline;
+}
+
+
+.sedoo_userpage_ul.sedoo_column .sedoo_userpage_span_post {
+    font-size: .8em;
+}
+
+
 /* @media (min-width:400px) {
 	.user-tabs label {	
 		float:left;

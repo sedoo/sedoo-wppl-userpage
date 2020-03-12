@@ -19,6 +19,21 @@
  */
 include(plugin_dir_path(__FILE__).'inc/sedoo-wppl-acf-config.php');
 
+
+include 'sedoo-wppl-userpage-acf.php';
+include 'sedoo-wppl-userpage-functions.php';
+
+
+// si la taxonomie research team tag n'est pas présente, je charge un fichier différent
+function sedoo_check_teamtagtaxo() {
+    if(taxonomy_exists('sedoo-research-team-tag')) {
+        include 'inc/sedoo-wppl-userpage-teamtag-acf-fields.php';
+    } else {
+        include 'inc/sedoo-wppl-userpage-noteamtag-acf-fields.php';
+    }
+}
+add_action('init','sedoo_check_teamtagtaxo');
+
 // LOAD CSS & SCRIPTS 
 function sedoo_userpage_scripts() {
     wp_register_style( 'prefix-style', plugins_url('css/sedoo_userpage.css', __FILE__) );
