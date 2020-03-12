@@ -7,7 +7,7 @@
  * Author URI:      https://www.sedoo.fr 
  * Text Domain:     sedoo-wppl-userpage
  * Domain Path:     /languages
- * Version:         0.2.1
+ * Version:         0.2.2
  * GitHub Plugin URI: sedoo/sedoo-wppl-userpage
  * GitHub Branch:     master
  * @package         Sedoo_Wppl_Userpage
@@ -26,18 +26,17 @@ include 'sedoo-wppl-userpage-functions.php';
 
 // si la taxonomie research team tag n'est pas présente, je charge un fichier différent
 function sedoo_check_teamtagtaxo() {
+    include 'inc/sedoo-wppl-userpage-default-acf-fields.php';
     if(taxonomy_exists('sedoo-research-team-tag')) {
         include 'inc/sedoo-wppl-userpage-teamtag-acf-fields.php';
-    } else {
-        include 'inc/sedoo-wppl-userpage-noteamtag-acf-fields.php';
-    }
+    } 
 }
 add_action('init','sedoo_check_teamtagtaxo');
 
 // LOAD CSS & SCRIPTS 
 function sedoo_userpage_scripts() {
-    wp_register_style( 'prefix-style', plugins_url('css/sedoo_userpage.css', __FILE__) );
-    wp_enqueue_style( 'prefix-style' );
+    wp_register_style( 'sedoo_userpage', plugins_url('css/sedoo_userpage.css', __FILE__) );
+    wp_enqueue_style( 'sedoo_userpage' );
 }
 add_action('wp_enqueue_scripts','sedoo_userpage_scripts');
 function sedoo_userpage_color_style() {
