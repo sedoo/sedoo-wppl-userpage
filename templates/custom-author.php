@@ -22,11 +22,15 @@ get_header();
             <div class="user-informations">
                 <?php if (get_field('photo_auteur', 'user_'.$userObject->ID)) {
                     $userImage=get_field('photo_auteur', 'user_'.$userObject->ID);
+                    if( !empty($userImage) ){
+                        $size='medium';
+                        $thumb= $userImage['sizes'][$size];
                 ?>
-                <figure>
-                    <img src="<?php the_field('photo_auteur', 'user_'.$userObject->ID); ?>"/>
-                </figure>
+                    <figure>
+                        <img src="<?php echo esc_url($thumb); ?>" alt="<?php echo $image['alt']; ?>" />
+                    </figure>
                 <?php
+                    }
                 }
                 ?>
                 <h1> 
