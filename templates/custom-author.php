@@ -41,7 +41,7 @@ get_header();
                         the_author_meta('user_lastname', $userObject->ID);    
                     ?>
                 </h1>
-                <p class="h2"><?php the_field('poste', 'user_'.$userObject->ID);?>
+                <p class="h3"><?php the_field('poste', 'user_'.$userObject->ID);?>
                 </p>
                 <div class="user-administratives-informations">
                     <p><b>Email :</b>
