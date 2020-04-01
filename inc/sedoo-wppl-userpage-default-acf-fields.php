@@ -21,6 +21,7 @@ if( function_exists('acf_add_local_field_group') ):
                 'choices' => array(
                     'line' => 'En ligne',
                     'column' => 'En Colonne',
+                    'foldable' => 'Volets dépliables',
                 ),
                 'allow_null' => 0,
                 'other_choice' => 0,
