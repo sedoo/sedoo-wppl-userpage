@@ -46,7 +46,7 @@ if( function_exists('acf_add_local_field_group') ):
         'label_placement' => 'top',
         'instruction_placement' => 'label',
         'hide_on_screen' => '',
-        'active' => true,
+        'active' => false,
         'description' => '',
     ));
 endif;
