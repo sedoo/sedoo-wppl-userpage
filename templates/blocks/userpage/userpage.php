@@ -1,5 +1,20 @@
 <?php
 
+// Create id attribute allowing for custom "anchor" value.
+$id = 'sedoo_userpage-' . $block['id'];
+if( !empty($block['anchor']) ) {
+    $id = $block['anchor'];
+}
+
+// Create class attribute allowing for custom "className" and "align" values.
+$className = 'sedoo_blocks_userpage';
+if( !empty($block['className']) ) {
+    $className .= ' ' . $block['className'];
+}
+if( !empty($block['align']) ) {
+    $className .= ' align' . $block['align'];
+}
+
 $rechercheparequipe = get_field('filtrer_par_equipe');
 
 if($rechercheparequipe == true) {
@@ -24,37 +39,64 @@ if($rechercheparequipe == true) {
     );
 }
 
-$affichage = get_field('affichage');
+// $affichage = get_field('affichage');  desactivé pour l'instant
 
  
 $utilisateurs = new WP_User_Query( $args );
 if ( ! empty( $utilisateurs->get_results() ) ) {
-    if($affichage != 'foldable') {
-        echo '<ul class="sedoo_userpage_ul sedoo_'.$affichage.'">';
-        foreach ( $utilisateurs->get_results() as $user ) {
-            echo '<li><a href="'.get_author_posts_url($user->ID).'"><span class="dashicons dashicons-admin-users"></span> <p class="sedoo_userpage_p_name">' . $user->first_name .' '.$user->last_name.' </p><span class="sedoo_userpage_span_post">'.get_field('poste', 'user_'.$user->ID).'</span><span>'.get_field('grade', 'user_'.$user->ID).' / '.get_field('tutelle', 'user_'.$user->ID).'</span></a></li>';
-        }
-        echo '</ul>';
-    } else {  
-        echo '<nav class="sedoo_userpage_ul users-tabs" role="tablist">';   
+    ?>
+    <section class="userpage-list users-cards <?php echo $className; ?>">
+        <?php  
         foreach ( $utilisateurs->get_results() as $user ) {
         ?>
-        <section id="<?php echo $user->ID;?>_section">
-            <input type="radio" name="tabs" id="<?php echo $user->ID;?>" />
-            <label for="<?php echo $user->ID;?>" id="<?php echo $user->ID;?>Tab" role="tab" aria-controls="<?php echo $user->ID;?>panel">
-                <span class="dashicons dashicons-arrow-right-alt2"></span><?php echo $user->first_name .' '.$user->last_name;?> -  <span class="sedoo_userpage_span_tut"> <?php echo get_field('tutelle', 'user_'.$user->ID); ?></span>
-            </label>
-            <article id="<?php echo $user->ID;?>panel" role="tabpanel" aria-labelledby="<?php echo $user->ID;?>Tab">
-                <span class="sedoo_userpage_span_post"><?php echo get_field('poste', 'user_'.$user->ID). ' - ' .get_field('grade', 'user_'.$user->ID); ?></span><br />
-               <?php echo get_user_meta($user->ID, 'description', true); ?>
+            <article>
+                <a href="<?php echo get_author_posts_url($user->ID);?>">    
+                     <figure>          
+                <?php 
+                    if (get_field('photo_auteur', 'user_'.$user->ID)) {
+                    $userImage=get_field('photo_auteur', 'user_'.$user->ID);
+                    if( !empty($userImage) ){
+                        $size='thumbnail';
+                        $thumb= $userImage['sizes'][$size];
+                    ?>
+                    
+                        <img src="<?php echo esc_url($thumb); ?>" alt="<?php echo $image['alt']; ?>" />
+                    
+                    <?php
+                        }
+                    }
+                    ?>  
+                    </figure>    
+                    <div>   
+                        <?php 
+                        // var_dump($user);
+                        if ($user->last_name == "") {
+                            $user_display_name=$user->display_name;
+                        } else {
+                            $user_display_name="".$user->last_name." ".$user->first_name."";
+                        }
+                        ?>
+                        <h3>
+                        <?php echo $user_display_name;?>
+                        </h3>
+                        <?php 
+                        if (get_field('poste', 'user_'.$user->ID)) { 
+                        ?>
+                        <p class="sedoo_userpage_position">
+                            <?php echo get_field('poste', 'user_'.$user->ID);?>
+                        </p>
+                        <?php 
+                        }
+                        ?>
+                    </div>
+                </a>
             </article>
-        </section>
         <?php 
         }
-        echo '</nav>';
-    }
-
+        ?>
+    </section>
+    <?php
 } else {
-    echo 'Aucun utilisateur.';
+    echo 'No result.';
 }
 ?>
