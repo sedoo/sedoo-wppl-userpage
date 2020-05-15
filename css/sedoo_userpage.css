@@ -73,11 +73,11 @@
 
 .users-tabs label:hover,
 .users-tabs [type="radio"]:checked + label {
-	color:#FFF;
+	color:#999;
 }
 
 .users-tabs article,
-.users-tabs [type="radio"] {
+.user-page .users-tabs [type="radio"] {
 	display:none;
 	padding:20px;
 }
