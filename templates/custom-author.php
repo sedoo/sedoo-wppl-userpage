@@ -66,7 +66,7 @@ get_header();
                 </section>             
                     
                 
-                <nav class="user-tabs" role="tablist">
+                <nav class="users-tabs" role="tablist">
                 <?php
 
                 if (get_field('cv_fonctions', 'user_'.$userObject->ID)) {  // SHOW CV/ FUNCTIONS
