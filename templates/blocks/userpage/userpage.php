@@ -29,13 +29,15 @@ if($rechercheparequipe == true) {
               'compare' => 'LIKE'
             )
             ),
-          'order' => 'ASC',
-          'orderby' => 'display_name',
+            'meta_key' => 'last_name',
+            'orderby' => 'meta_value',
+            'order' => 'ASC',
     );
 } else {
     $args = array(
+        'meta_key' => 'last_name',
+        'orderby' => 'meta_value',
         'order' => 'ASC',
-        'orderby' => 'display_name'
     );
 }
 
