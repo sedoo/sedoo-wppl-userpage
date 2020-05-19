@@ -53,7 +53,7 @@ if ( ! empty( $utilisateurs->get_results() ) ) {
             <article>
                 <a href="<?php echo get_author_posts_url($user->ID);?>">    
                      <figure>          
-                <?php 
+                    <?php 
                     if (get_field('photo_auteur', 'user_'.$user->ID)) {
                     $userImage=get_field('photo_auteur', 'user_'.$user->ID);
                     if( !empty($userImage) ){
@@ -64,7 +64,9 @@ if ( ! empty( $utilisateurs->get_results() ) ) {
                         <img src="<?php echo esc_url($thumb); ?>" alt="<?php echo $image['alt']; ?>" />
                     
                     <?php
-                        }
+                        }                        
+                    }else {
+                        echo "<span class=\"userLetters\">".substr($user->last_name, 0, 1).substr($user->first_name, 0, 1)."</span>";
                     }
                     ?>  
                     </figure>    
