@@ -47,13 +47,29 @@ if ( ! empty( $utilisateurs->get_results() ) ) {
     ?>
     <section class="userpage-list users-cards <?php echo $className; ?>">
         <?php  
+        $firstletter="";
+        $count=count($utilisateurs->get_results());
+
         foreach ( $utilisateurs->get_results() as $user ) {
             if (!is_super_admin($user->ID)) {
-        ?>
-            <article>
+
+                $user_last_name_firstLetter = strtoupper(substr($user->last_name, 0, 1));
+            ?>
+             <?php 
+            // if ($count>4) {
+                if (($firstletter == "") || (($firstletter !== "") && ( $firstletter!==$user_last_name_firstLetter) ) ){
+                    $firstletter= $user_last_name_firstLetter;
+                    echo "<div class=\"firstletterList\"><span>".$firstletter."</span></div>";
+                } else {
+                    $firstletter= $user_last_name_firstLetter;
+                }
+            // }
+            ?>
+            <article class="fl-<?php echo $user_last_name_firstLetter;?>">
+           
                 <a href="<?php echo get_author_posts_url($user->ID);?>">    
                      <figure>          
-                <?php 
+                    <?php 
                     if (get_field('photo_auteur', 'user_'.$user->ID)) {
                     $userImage=get_field('photo_auteur', 'user_'.$user->ID);
                     if( !empty($userImage) ){
@@ -64,7 +80,9 @@ if ( ! empty( $utilisateurs->get_results() ) ) {
                         <img src="<?php echo esc_url($thumb); ?>" alt="<?php echo $image['alt']; ?>" />
                     
                     <?php
-                        }
+                        }                        
+                    }else {
+                        echo "<span class=\"userLetters\">".substr($user->last_name, 0, 1).substr($user->first_name, 0, 1)."</span>";
                     }
                     ?>  
                     </figure>    
