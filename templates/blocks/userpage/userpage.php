@@ -48,6 +48,7 @@ if ( ! empty( $utilisateurs->get_results() ) ) {
     <section class="userpage-list users-cards <?php echo $className; ?>">
         <?php  
         foreach ( $utilisateurs->get_results() as $user ) {
+            if (!is_super_admin($user->ID)) {
         ?>
             <article>
                 <a href="<?php echo get_author_posts_url($user->ID);?>">    
@@ -92,6 +93,7 @@ if ( ! empty( $utilisateurs->get_results() ) ) {
                 </a>
             </article>
         <?php 
+            }
         }
         ?>
     </section>
