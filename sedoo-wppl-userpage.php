@@ -7,7 +7,7 @@
  * Author URI:      https://www.sedoo.fr 
  * Text Domain:     sedoo-wppl-userpage
  * Domain Path:     /languages
- * Version:         0.5.3
+ * Version:         0.5.4
  * GitHub Plugin URI: sedoo/sedoo-wppl-userpage
  * GitHub Branch:     master
  * @package         Sedoo_Wppl_Userpage
@@ -52,7 +52,7 @@ function sedoo_userpage_color_style() {
     .user-tabs label:hover {
         background:var(--main-color);
     }
-
+    </style>
     <?php
     
 }
