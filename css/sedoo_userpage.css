@@ -143,6 +143,7 @@ section.userpage-list.users-cards > div.firstletterList span{
     height: 100%;
     align-items: center;
     text-decoration: none;
+    color:#333;
 }
 
 .userpage-list.users-cards > article > a:hover {
