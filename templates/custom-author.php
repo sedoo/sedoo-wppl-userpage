@@ -33,16 +33,20 @@ get_header();
                     }
                 }
                 ?>
-                <h1> 
+                <h1><span class="firstname">
                     <?php
                         the_author_meta('user_firstname', $userObject->ID);
                     ?> 
+                    </span>
                     <?php
                         the_author_meta('user_lastname', $userObject->ID);    
                     ?>
                 </h1>
-                <p class="h3"><?php the_field('poste', 'user_'.$userObject->ID);?><?php the_field('grade', 'user_'.$userObject->ID);?> <br /> <?php the_field('tutelle', 'user_'.$userObject->ID);?>
+                <p class="h3 poste"><?php the_field('poste', 'user_'.$userObject->ID);?></p>
+                <p class="gradeTutelle"><em>
+                    <?php the_field('grade', 'user_'.$userObject->ID);?> <?php the_field('tutelle', 'user_'.$userObject->ID);?></em>
                 </p>
+
                 <div class="user-administratives-informations">
                     <p><b>Email :</b>
                         <?php 
