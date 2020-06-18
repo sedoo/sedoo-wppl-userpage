@@ -38,6 +38,12 @@ get_header();
                         <img src="<?php echo esc_url($url); ?>" alt="<?php echo get_user_meta( $userObject->ID,'first_name', true). ' '.get_user_meta( $userObject->ID,'last_name', true); ?>" />
                     </figure>
                     <?php 
+                } else {
+                    ?>
+                    <figure>
+                        <img src="<?php echo plugins_url('empty-user.svg', __FILE__); ?>" alt="<?php echo get_user_meta( $userObject->ID,'first_name', true). ' '.get_user_meta( $userObject->ID,'last_name', true); ?>" />
+                    </figure>
+                    <?php 
                 }
                 ?>
                 <h1><span class="firstname">
