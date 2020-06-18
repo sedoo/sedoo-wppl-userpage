@@ -20,17 +20,24 @@ get_header();
 	<div id="primary" class="content-area">
 		<main id="main" class="site-main user-page">
             <div class="user-informations">
-                <?php if (get_field('photo_auteur', 'user_'.$userObject->ID)) {
-                    $userImage=get_field('photo_auteur', 'user_'.$userObject->ID);
-                    if( !empty($userImage) ){
-                        $size='medium';
-                        $thumb= $userImage['sizes'][$size];
-                ?>
+            <?php 
+                $img_id = get_user_meta($userObject->ID, 'photo_auteur', true);
+                $primaryblogid = get_user_meta($userObject->ID, 'primary_blog', true);
+                if($primaryblogid == 1) {
+                    $table_name = 'posts';
+                }
+                else {
+                    $table_name = $primaryblogid.'_posts';
+                }
+                global $wpdb;
+                $results = $wpdb->get_results( "SELECT * FROM {$wpdb->base_prefix}".$table_name." WHERE ID = ".$img_id, OBJECT );
+                if($results) {
+                    $url = $results[0]->guid;
+                    ?>
                     <figure>
-                        <img src="<?php echo esc_url($thumb); ?>" alt="<?php echo $image['alt']; ?>" />
+                        <img src="<?php echo esc_url($url); ?>" alt="<?php echo get_user_meta( $userObject->ID,'first_name', true). ' '.get_user_meta( $userObject->ID,'last_name', true); ?>" />
                     </figure>
-                <?php
-                    }
+                    <?php 
                 }
                 ?>
                 <h1><span class="firstname">
