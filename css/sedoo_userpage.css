@@ -46,6 +46,12 @@
     color: #000;
 }
 
+.user-page .user-siteperso
+{
+    background: rgba(244, 237, 237, 0.5);
+    padding: 2px 13px;
+}
+
 .user-page .user-siteperso:hover {
 	color:#FFF;
 }
