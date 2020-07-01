@@ -235,7 +235,7 @@ function sedoo_userpage_displayACF_title($fieldName) {
     $title = array(
         'cv_fonctions'          => __('CV / functions', 'sedoo-wppl-labtools' ),
         'travaux_de_recherche'  => __('Research', 'sedoo-wppl-labtools' ),
-        'responsabilites'       => __('Responsabilities', 'sedoo-wppl-labtools' ),
+        'responsabilites'       => __('Responsibilities', 'sedoo-wppl-labtools' ),
         'publis'                => __('Publications', 'sedoo-wppl-labtools' ),
         'projets'               => __('Projects', 'sedoo-wppl-labtools' ),
         'enseignement'          => __('Teaching', 'sedoo-wppl-labtools' ),
