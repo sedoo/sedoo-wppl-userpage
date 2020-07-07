@@ -120,7 +120,7 @@ section.userpage-list.users-cards > div.firstletterList {
     width: 100%;
     position: relative;
     margin-top:40px;
-    font-size: 40px;
+    font-size: 2.5rem;
 }
 
 section.userpage-list.users-cards > div.firstletterList span{
@@ -173,7 +173,7 @@ section.userpage-list.users-cards > div.firstletterList span{
 .userpage-list.users-cards > article figure .userLetters {
     width: 100%;
     height: 100%;
-    font-size: 25px;
+    font-size: 1.5625rem;
     text-transform: uppercase;
 }
 
