@@ -7,7 +7,7 @@
  * Author URI:      https://www.sedoo.fr 
  * Text Domain:     sedoo-wppl-userpage
  * Domain Path:     /languages
- * Version:         1.0.0
+ * Version:         1.1.0
  * GitHub Plugin URI: sedoo/sedoo-wppl-userpage
  * GitHub Branch:     master
  * @package         Sedoo_Wppl_Userpage
@@ -129,7 +129,7 @@ function sedoo_userpage_update_extra_profile_fields($user_id) {
     $administrativeInformation = "<p><b>Tel :</b>".$tel."</p>\n<p><b>Bureau :</b>".$bureau.", ".$site."</p>\n<div class=\"deploy\"><p><b>Status :</b>".$status."</p></div>";
     update_user_meta($user_id, 'ldap_field', ''.$administrativeInformation.'');
 
-
+    /*
     // GET FIRST NAME & LAST NAME FROM WP USERMETA
     $firstName = get_user_meta($user_id, 'first_name', true);
     $lastName = get_user_meta($user_id, 'last_name', true);
@@ -202,6 +202,7 @@ function sedoo_userpage_update_extra_profile_fields($user_id) {
     // } else {
     //     echo "<h1>NO CONTENT AVAILABLE</h1>";
     } 
+    */
 }
 
 
