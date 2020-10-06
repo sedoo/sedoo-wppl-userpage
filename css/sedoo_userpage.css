@@ -10,7 +10,16 @@
 
 .user-page .user-informations {
 	margin:0 auto;
-	flex: 1 1 0%;
+    flex: 1 1 0%;
+    position:sticky;
+    position: -webkit-sticky;
+    top:120px;
+}
+
+@media (max-width:789px) {
+    .user-page .user-informations {
+        position: static;
+    }
 }
 
 .user-page .user-informations figure {
