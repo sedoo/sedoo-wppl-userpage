@@ -5,7 +5,7 @@
     align-content: center;
     align-items: flex-start;
     max-width: 1400px;
-    margin: auto;
+    margin: 40px auto;
 }
 
 .user-page .user-informations {
@@ -88,6 +88,9 @@
 	background:#eee;
 	margin-top:5px;
 	cursor:pointer; /* changement de curseur de souris */
+}
+.darkmode .users-tabs label {
+    color:#333;
 }
 
 [type="checkbox"]:checked + label {
