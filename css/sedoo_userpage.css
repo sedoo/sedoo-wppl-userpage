@@ -176,6 +176,7 @@ section.userpage-list.users-cards > div.firstletterList span{
     flex:0 0 75px;
     /* border-radius: 10px; */
     height: 75px;
+    overflow: hidden;
     margin-right: 20px;
     background:#CCC;
     line-height: 75px;
