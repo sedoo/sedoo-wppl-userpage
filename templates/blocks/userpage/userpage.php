@@ -85,7 +85,6 @@ if ( ! empty( $utilisateurs->get_results() ) ) {
                             if($results) {
                                 $url = $results[0]->guid;
                                 ?>
-
                                     <img src="<?php echo esc_url($url); ?>" alt="<?php echo get_user_meta( $user->ID,'first_name', true). ' '.get_user_meta( $userObject->ID,'last_name', true); ?>" />
                                 <?php 
                             } else {
