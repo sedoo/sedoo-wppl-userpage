@@ -70,23 +70,28 @@ if ( ! empty( $utilisateurs->get_results() ) ) {
             <article class="fl-<?php echo $user_last_name_firstLetter;?>">
            
                 <a href="<?php echo get_author_posts_url($user->ID);?>">    
-                     <figure>          
-                    <?php 
-                    if (get_field('photo_auteur', 'user_'.$user->ID)) {
-                    $userImage=get_field('photo_auteur', 'user_'.$user->ID);
-                    if( !empty($userImage) ){
-                        $size='thumbnail';
-                        $thumb= $userImage['sizes'][$size];
+                     <figure> 
+                        <?php 
+                            $img_id = get_user_meta($user->ID, 'photo_auteur', true);
+                            $primaryblogid = get_user_meta($user->ID, 'primary_blog', true);
+                            if($primaryblogid == 1) {
+                                $table_name = 'posts';
+                            }
+                            else {
+                                $table_name = $primaryblogid.'_posts';
+                            }
+                            global $wpdb;
+                            $results = $wpdb->get_results( "SELECT * FROM {$wpdb->base_prefix}".$table_name." WHERE ID = ".$img_id, OBJECT );
+                            if($results) {
+                                $url = $results[0]->guid;
+                                ?>
+
+                                    <img src="<?php echo esc_url($url); ?>" alt="<?php echo get_user_meta( $user->ID,'first_name', true). ' '.get_user_meta( $userObject->ID,'last_name', true); ?>" />
+                                <?php 
+                            } else {
+                                echo "<span class=\"userLetters\">".substr($user->last_name, 0, 1).substr($user->first_name, 0, 1)."</span>";
+                            }
                     ?>
-                    
-                        <img src="<?php echo esc_url($thumb); ?>" alt="<?php echo $image['alt']; ?>" />
-                    
-                    <?php
-                        }                        
-                    }else {
-                        echo "<span class=\"userLetters\">".substr($user->last_name, 0, 1).substr($user->first_name, 0, 1)."</span>";
-                    }
-                    ?>  
                     </figure>    
                     <div>   
                         <?php 
