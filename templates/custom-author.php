@@ -62,10 +62,9 @@ get_header();
                 <?php
                 if (get_field('research_team_tag', 'user_'.$userObject->ID)){
                     $filtreequipe = get_field('research_team_tag', 'user_'.$userObject->ID);
-                    
                     foreach ($filtreequipe as $team) {
-                        var_dump($team);
-                        echo "<p>".$team->name."</p>";
+                        echo '<p class="user-team"><a href="'.$team->guid.'">';
+                        echo $team->post_title."</p>";
                     }
                 }
                 ?>
