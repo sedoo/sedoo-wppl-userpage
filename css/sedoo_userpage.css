@@ -55,6 +55,10 @@
     color: #000;
 }
 
+.user-page .user-team {
+    font-weight: bold;
+}
+
 .user-page .user-siteperso
 {
     background: rgba(244, 237, 237, 0.5);

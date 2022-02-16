@@ -48,7 +48,7 @@ get_header();
                 ?>
                 <h1><span class="firstname">
                     <?php
-                        the_author_meta('user_firstname', $userObject->ID);
+                        the_author_meta('user_firstname', $userObject->ID);  
                     ?> 
                     </span>
                     <?php
@@ -59,6 +59,15 @@ get_header();
                 <p class="gradeTutelle"><em>
                     <?php the_field('grade', 'user_'.$userObject->ID);?> <?php the_field('tutelle', 'user_'.$userObject->ID);?></em>
                 </p>
+                <?php
+                if (get_field('research_team_tag', 'user_'.$userObject->ID)){
+                    $filtreequipe = get_field('research_team_tag', 'user_'.$userObject->ID);
+                    foreach ($filtreequipe as $team) {
+                        echo '<p class="user-team"><a href="'.$team->guid.'">';
+                        echo $team->post_title."</p>";
+                    }
+                }
+                ?>
 
                 <div class="user-administratives-informations">
                     <p><b>Email :</b>
