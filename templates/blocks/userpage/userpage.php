@@ -20,14 +20,13 @@ $rechercheparequipe = get_field('filtrer_par_equipe');
 if($rechercheparequipe == true) {
     // recherche par equipe
     $filtreequipe = get_field('equipe_de_recherche');
-    $idequipe = $filtreequipe[0];
     $args = array(
         'meta_query' => array(
             array(
               'key' => 'research_team_tag',
-              'value' => $idequipe,
+              'value' => $filtreequipe[0],
               'compare' => 'LIKE'
-            )
+                )
             ),
             'meta_key' => 'last_name',
             'orderby' => 'meta_value',
@@ -94,7 +93,6 @@ if ( ! empty( $utilisateurs->get_results() ) ) {
                     </figure>    
                     <div>   
                         <?php 
-                        // var_dump($user);
                         if ($user->last_name == "") {
                             $user_display_name=$user->display_name;
                         } else {
