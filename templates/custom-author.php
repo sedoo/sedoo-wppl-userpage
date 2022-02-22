@@ -14,6 +14,44 @@
 // get the current taxonomy term
 $userObject = get_queried_object()->data;
 
+/************************************************************************************************************************************************************
+ * 
+ */
+
+function get_data($url) {
+    $ch = curl_init();
+    $timeout = 5;
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+    curl_setopt($ch,CURLOPT_USERAGENT,'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
+  
+    curl_setopt($ch, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
+  
+    $data = curl_exec($ch);
+    // echo 'Erreur Curl : ' . curl_error($ch);
+    curl_close($ch);
+    return $data;
+  }
+  
+  $fileLDAP = get_data('https://annuaire.obs-mip.fr/listeWithPageProfil.csv');
+
+//   $fileLDAP=fopen("http://localhost/annuaire/sources/listeWithPageProfil.csv", "r");
+// $fileLDAP=fopen("https://annuaire.obs-mip.fr/listeWithPageProfil.csv", "r");
+var_dump($fileLDAP);
+
+
+while ($row = fgets($fileLDAP, 1000, ";")) {
+    if ($row[3] == get_the_author_meta('user_email', $userObject->ID)) {
+        $result = $row;
+        break;
+    }
+}
+var_dump($result);
+/***************************************************************************************************************************************************************/
+
 get_header();
 ?>
 
@@ -64,7 +102,7 @@ get_header();
                     $filtreequipe = get_field('research_team_tag', 'user_'.$userObject->ID);
                     foreach ($filtreequipe as $team) {
                         echo '<p class="user-team"><a href="'.$team->guid.'">';
-                        echo $team->post_title."</p>";
+                        echo $team->post_title."</a></p>";
                     }
                 }
                 ?>
@@ -73,13 +111,26 @@ get_header();
                     <p><b>Email :</b>
                         <?php 
                         $userMail = explode("@", get_the_author_meta('user_email', $userObject->ID)); 
-                        echo $userMail[0]."<span class=\"hideEmail\">Dear bot, you won't get my mail address</span>@<span class=\"hideEmail\">and my domain...</span>".$userMail[1]; ?>
-                        </a>
+                        echo $userMail[0]."<span class=\"hideEmail\">Dear bot, you won't get my mail address</span>@<span class=\"hideEmail\">and my domain...</span>".$userMail[1]; 
+                        ?>
                     </p>
                     <?php the_field('ldap_field', 'user_'.$userObject->ID); ?>
-                    <p><b>Adresse professionnelle :</b><?php the_field('adresse_pro', 'user_'.$userObject->ID); ?></p>
+                    <?php 
+                    if (get_field('url_site_perso', 'user_'.$userObject->ID)) {
+                    ?>
+                    <p><b>Address :</b><?php the_field('adresse_pro', 'user_'.$userObject->ID); ?></p>
+                    <?php
+                    }
+                    ?>
+                    <?php 
+                    if (get_field('url_site_perso', 'user_'.$userObject->ID)) {
+                    ?>
                     <p>
-                    <a class="user-siteperso" href="<?php the_field('url_site_perso', 'user_'.$userObject->ID); ?>" target="_blank"><b>>> Site web personnel</b></a></p>
+                    <a class="user-siteperso" href="<?php the_field('url_site_perso', 'user_'.$userObject->ID); ?>" target="_blank"><b>>> Site web personnel</b></a>
+                    </p>
+                    <?php
+                    }
+                    ?>
                 </div>
 
             </div>
