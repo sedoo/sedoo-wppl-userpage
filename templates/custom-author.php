@@ -36,20 +36,20 @@ function get_data($url) {
     return $data;
   }
   
-  $fileLDAP = get_data('https://annuaire.obs-mip.fr/listeWithPageProfil.csv');
+//   $fileLDAP = get_data('https://annuaire.obs-mip.fr/listeWithPageProfil.csv');
 
 //   $fileLDAP=fopen("http://localhost/annuaire/sources/listeWithPageProfil.csv", "r");
 // $fileLDAP=fopen("https://annuaire.obs-mip.fr/listeWithPageProfil.csv", "r");
-var_dump($fileLDAP);
+// var_dump($fileLDAP);
 
 
-while ($row = fgets($fileLDAP, 1000, ";")) {
-    if ($row[3] == get_the_author_meta('user_email', $userObject->ID)) {
-        $result = $row;
-        break;
-    }
-}
-var_dump($result);
+// while ($row = fgets($fileLDAP, 1000, ";")) {
+//     if ($row[3] == get_the_author_meta('user_email', $userObject->ID)) {
+//         $result = $row;
+//         break;
+//     }
+// }
+// var_dump($result);
 /***************************************************************************************************************************************************************/
 
 get_header();
@@ -97,15 +97,7 @@ get_header();
                 <p class="gradeTutelle"><em>
                     <?php the_field('grade', 'user_'.$userObject->ID);?> <?php the_field('tutelle', 'user_'.$userObject->ID);?></em>
                 </p>
-                <?php
-                if (get_field('research_team_tag', 'user_'.$userObject->ID)){
-                    $filtreequipe = get_field('research_team_tag', 'user_'.$userObject->ID);
-                    foreach ($filtreequipe as $team) {
-                        echo '<p class="user-team"><a href="'.$team->guid.'">';
-                        echo $team->post_title."</a></p>";
-                    }
-                }
-                ?>
+                
 
                 <div class="user-administratives-informations">
                     <p><b>Email :</b>
@@ -114,7 +106,16 @@ get_header();
                         echo $userMail[0]."<span class=\"hideEmail\">Dear bot, you won't get my mail address</span>@<span class=\"hideEmail\">and my domain...</span>".$userMail[1]; 
                         ?>
                     </p>
-                    <?php the_field('ldap_field', 'user_'.$userObject->ID); ?>
+                    <?php
+                    if (get_field('research_team_tag', 'user_'.$userObject->ID)){
+                        $filtreequipe = get_field('research_team_tag', 'user_'.$userObject->ID);
+                        foreach ($filtreequipe as $team) {
+                            echo '<p class="user-team"><a href="'.$team->guid.'">';
+                            echo $team->post_title."</a></p>";
+                        }
+                    }
+                    ?>
+                    <?php //the_field('ldap_field', 'user_'.$userObject->ID);?>
                     <?php 
                     if (get_field('url_site_perso', 'user_'.$userObject->ID)) {
                     ?>

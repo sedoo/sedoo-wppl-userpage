@@ -55,8 +55,16 @@
     color: #000;
 }
 
-.user-page .user-team {
-    font-weight: bold;
+.user-page .user-administratives-informations .user-team {
+    /* font-weight: bold; */
+}
+
+.user-page .user-administratives-informations .user-team a {
+    color:var(--hover-textcolor);
+    text-decoration: underline;
+}
+.user-page .user-administratives-informations .user-team a:hover {
+    color:#333;
 }
 
 .user-page .user-siteperso
