@@ -7,7 +7,7 @@
  * Author URI:      https://www.sedoo.fr 
  * Text Domain:     sedoo-wppl-userpage
  * Domain Path:     /languages
- * Version:         1.3.0
+ * Version:         1.3.1
  * GitHub Plugin URI: sedoo/sedoo-wppl-userpage
  * GitHub Branch:     master
  * @package         Sedoo_Wppl_Userpage
@@ -97,7 +97,33 @@ function sedoo_userpage_recover_ldap_fields($user_id) {
     $wp_user_info = get_userdata($user_id);
     $wp_user_email = $wp_user_info->user_email;
 
-    $fileLDAP=fopen("https://annuaire.obs-mip.fr/listeWithPageProfil.csv", "r");
+    // $fileLDAP=fopen("https://annuaire.obs-mip.fr/listeWithPageProfil.csv", "r");
+
+    /**
+     * change method with CURL
+     */
+
+    function get_data($url) {
+        $ch = curl_init();
+        $timeout = 5;
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        curl_setopt($ch,CURLOPT_USERAGENT,'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
+      
+        curl_setopt($ch, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
+      
+        $data = curl_exec($ch);
+        echo 'Erreur Curl : ' . curl_error($ch);
+        curl_close($ch);
+        return $data;
+      }
+      
+    $fileLDAP = get_data('https://annuaire.obs-mip.fr/listeWithPageProfil.csv');
+    // $fileLDAP = get_data('https://localhost/annuaire/sources/listeWithPageProfil.csv');
+    // echo $returned_content;
 
     $result = false;
     while ($row = fgetcsv($fileLDAP, 1000, ";")) {
@@ -106,11 +132,12 @@ function sedoo_userpage_recover_ldap_fields($user_id) {
             break;
         }
     }
-    fclose($fileLDAP);
-    return $result;
+    // fclose($fileLDAP);
+    // return $result;
+    return $fileLDAP;
 }
 
-add_action('profile_update', 'sedoo_userpage_update_extra_profile_fields', 10, 2);
+// add_action('profile_update', 'sedoo_userpage_update_extra_profile_fields', 10, 2);
 function sedoo_userpage_update_extra_profile_fields($user_id) {  
 
     $userLDAPinfo = sedoo_userpage_recover_ldap_fields($user_id);
@@ -129,80 +156,6 @@ function sedoo_userpage_update_extra_profile_fields($user_id) {
     $administrativeInformation = "<p><b>Tel :</b>".$tel."</p>\n<p><b>Bureau :</b>".$bureau.", ".$site."</p>\n<div class=\"deploy\"><p><b>Status :</b>".$status."</p></div>";
     update_user_meta($user_id, 'ldap_field', ''.$administrativeInformation.'');
 
-    /*
-    // GET FIRST NAME & LAST NAME FROM WP USERMETA
-    $firstName = get_user_meta($user_id, 'first_name', true);
-    $lastName = get_user_meta($user_id, 'last_name', true);
-    // remplacement DE TOUS LES ESPACES par des "-" sur NOM PRENOM
-    $firstName_url=str_replace(" ", "-", $firstName);
-    $lastName_url=str_replace(" ", "-", $lastName);
-
-    // URL LABO
-    $url_labo=array(
-        // "CESBIO" => "https://www.cesbio.cnrs.fr",
-        "ECOLAB" => "http://www3.obs-mip.fr/ecolab/",
-        "GET" => "http://www3.obs-mip.fr/get/",
-        "IRAP" => "http://www3.obs-mip.fr/irap/",
-        "LA" => "http://www3.obs-mip.fr/la/",
-        // "LEGOS" => "http://www.legos.obs-mip.fr/",
-        // "TBL" => "http://tbl.omp.eu/",
-        // "UMS831" => "http://www.obs-mip.fr/",
-    );
-
-    // GENERATE URL_PROFIL TO GET CONTENT
-    $urlProfil = $url_labo[$labo]."profils/".$lastName_url."_".$firstName_url;
-
-    // Create DOM from URL or file
-    $html = new simple_html_dom();
-    $html = file_get_html($urlProfil);
-    // var_dump($html);
-
-    if ($html == true) {
-        //******************************* REMOVE ATTR <A> eZTOC  ******************************* -->
-        foreach($html->find('a') as $e) {
-            // remove attributes
-            if (isset($e->id)){
-                $e->id = null;
-            }
-            if (isset($e->name)){
-                $e->name = null;
-            }
-        }
-        $cv = userpage_extract_html($html, 'div#tab1');
-        $research = userpage_extract_html($html, 'div#tab2');
-        $responsabilites = userpage_extract_html($html, 'div#tab3');
-        $publications = userpage_extract_html($html, 'div#tab4');
-        $projets = userpage_extract_html($html, 'div#tab5');
-        $enseignement = userpage_extract_html($html, 'div#tab6');
-        $rsxMetiers = userpage_extract_html($html, 'div#tab7');
-        
-        if ( current_user_can('edit_user',$user_id) ) {
-            if (get_user_meta($user_id, 'cv_fonctions', true) == "") {
-                update_user_meta($user_id, 'cv_fonctions', ''.$cv.'');
-            }
-            if (get_user_meta($user_id, 'travaux_de_recherche', true) == "") {
-            update_user_meta($user_id, 'travaux_de_recherche', ''.$research.'');
-            }
-            if (get_user_meta($user_id, 'responsabilites', true) == "") {
-                update_user_meta($user_id, 'responsabilites', ''.$responsabilites.'');
-            }
-            if (get_user_meta($user_id, 'publis', true) == "") {
-                update_user_meta($user_id, 'publis', ''.$publications.'');
-            }
-            if (get_user_meta($user_id, 'projets', true) == "") {
-                update_user_meta($user_id, 'projets', ''.$projets.'');
-            }
-            if (get_user_meta($user_id, 'enseignement', true) == "") {
-                update_user_meta($user_id, 'enseignement', ''.$enseignement.'');
-            }
-            if (get_user_meta($user_id, 'rsx_metiers', true) == "") {
-                update_user_meta($user_id, 'rsx_metiers', ''.$rsxMetiers.'');
-            }
-        }
-    // } else {
-    //     echo "<h1>NO CONTENT AVAILABLE</h1>";
-    } 
-    */
 }
 
 
