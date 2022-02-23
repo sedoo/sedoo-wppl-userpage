@@ -65,7 +65,7 @@ if( function_exists('acf_add_local_field_group') ):
             ),
             array(
                 'key' => 'field_5d5ad36363ecb',
-                'label' => 'Adresse profesionnelle',
+                'label' => 'Adresse professionnelle',
                 'name' => 'adresse_pro',
                 'type' => 'textarea',
                 'instructions' => '',

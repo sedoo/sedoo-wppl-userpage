@@ -10,7 +10,7 @@ if( function_exists('acf_add_local_field_group') ):
                 'label' => 'Equipe de recherche',
                 'name' => 'research_team_tag',
                 'type' => 'relationship',
-                'instructions' => '',
+                'instructions' => '<p style="background:#ff9800;color:#000;padding:5px;">Si le site propose plusieurs langues, sélectionnez toutes les traductions existantes de votre équipe</p>',
                 'required' => 0,
                 'conditional_logic' => 0,
                 'wrapper' => array(
@@ -81,7 +81,15 @@ if( function_exists('acf_add_local_field_group') ):
                 'type' => 'relationship',
                 'instructions' => '',
                 'required' => 0,
-                'conditional_logic' => 0,
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            'field' => 'field_5e6a469a6d532',
+                            'operator' => '==',
+                            'value' => '1',
+                        ),
+                    ),
+                ),
                 'wrapper' => array(
                     'width' => '',
                     'class' => '',
@@ -99,6 +107,25 @@ if( function_exists('acf_add_local_field_group') ):
                 'min' => '1',
                 'max' => '1',
                 'return_format' => 'id',
+            ),
+            array(
+                'key' => 'field_619503f5cb8da',
+                'label' => 'Afficher Grade / tutelle',
+                'name' => 'userpage_block_show_tutelle',
+                'type' => 'true_false',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array(
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'message' => '',
+                'default_value' => 1,
+                'ui' => 1,
+                'ui_on_text' => '',
+                'ui_off_text' => '',
             ),
         ),
         'location' => array(

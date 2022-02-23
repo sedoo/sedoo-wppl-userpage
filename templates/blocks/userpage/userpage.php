@@ -103,14 +103,40 @@ if ( ! empty( $utilisateurs->get_results() ) ) {
                         <?php echo $user_display_name;?>
                         </h3>
                         <?php 
-                        if (get_field('poste', 'user_'.$user->ID)) { 
+                        if (get_field('poste', 'user_'.$user->ID) || get_field('userpage_block_show_tutelle') == true) { 
                         ?>
                         <p class="sedoo_userpage_position">
-                            <?php echo get_field('poste', 'user_'.$user->ID);?>
+                            <?php 
+                            if (get_field('poste', 'user_'.$user->ID)) {
+                                the_field('poste', 'user_'.$user->ID);
+                            }
+                            ?>
+                            
+                            <?php 
+                            if(get_field('userpage_block_show_tutelle') == true) {
+                                if (get_field('poste', 'user_'.$user->ID) && (get_field('tutelle', 'user_'.$user->ID) || get_field('grade', 'user_'.$user->ID)) ) { 
+                                    ?>
+                                    <br>
+                                <?php
+                                }
+                                ?>
+
+                                <?php       
+                                if (get_field('tutelle', 'user_'.$user->ID) || get_field('grade', 'user_'.$user->ID) ) { 
+                                ?>                                
+                                    <em>
+                                        <?php the_field('grade', 'user_'.$user->ID);?> <?php the_field('tutelle', 'user_'.$user->ID);?>
+                                    </em>
+                                <?php 
+                                }
+                            }
+                            ?>
                         </p>
                         <?php 
                         }
                         ?>
+                        
+                        
                     </div>
                 </a>
             </article>
