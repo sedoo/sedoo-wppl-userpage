@@ -61,7 +61,6 @@ get_header();
             <?php 
                 $img_id = get_user_meta($userObject->ID, 'photo_auteur', true);
                 $primaryblogid = get_user_meta($userObject->ID, 'primary_blog', true);
-                var_dump($primaryblogid);
                 // if($primaryblogid == 1) {
                 if (($primaryblogid == 1)||($primaryblogid == "")) {
                     $table_name = 'posts';
