@@ -73,7 +73,7 @@ if ( ! empty( $utilisateurs->get_results() ) ) {
                         <?php 
                             $img_id = get_user_meta($user->ID, 'photo_auteur', true);
                             $primaryblogid = get_user_meta($user->ID, 'primary_blog', true);
-                            if($primaryblogid == 1) {
+                            if (($primaryblogid == 1)||($primaryblogid == "")) {
                                 $table_name = 'posts';
                             }
                             else {
