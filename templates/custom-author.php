@@ -94,9 +94,9 @@ get_header();
                         the_author_meta('user_lastname', $userObject->ID);    
                     ?>
                 </h1>
-                <p class="h3 poste"><?php the_field('poste', 'user_'.$userObject->ID);?></p>
+                <p class="h3 poste"><?php echo get_field('poste', 'user_'.$userObject->ID);?></p>
                 <p class="gradeTutelle"><em>
-                    <?php the_field('grade', 'user_'.$userObject->ID);?> <?php the_field('tutelle', 'user_'.$userObject->ID);?></em>
+                    <?php echo get_field('grade', 'user_'.$userObject->ID);?> <?php echo get_field('tutelle', 'user_'.$userObject->ID);?></em>
                 </p>
                 
 
@@ -116,11 +116,11 @@ get_header();
                         }
                     }
                     ?>
-                    <?php //the_field('ldap_field', 'user_'.$userObject->ID);?>
+                    <?php //echo get_field('ldap_field', 'user_'.$userObject->ID);?>
                     <?php 
                     if (get_field('url_site_perso', 'user_'.$userObject->ID)) {
                     ?>
-                    <p><b>Address :</b><?php the_field('adresse_pro', 'user_'.$userObject->ID); ?></p>
+                    <p><b>Address :</b><?php echo get_field('adresse_pro', 'user_'.$userObject->ID); ?></p>
                     <?php
                     }
                     ?>
@@ -128,7 +128,7 @@ get_header();
                     if (get_field('url_site_perso', 'user_'.$userObject->ID)) {
                     ?>
                     <p>
-                    <a class="user-siteperso" href="<?php the_field('url_site_perso', 'user_'.$userObject->ID); ?>" target="_blank"><b>>> Site web personnel</b></a>
+                    <a class="user-siteperso" href="<?php echo get_field('url_site_perso', 'user_'.$userObject->ID); ?>" target="_blank"><b>>> Site web personnel</b></a>
                     </p>
                     <?php
                     }
