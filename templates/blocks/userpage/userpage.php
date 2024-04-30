@@ -99,16 +99,16 @@ if ( ! empty( $utilisateurs->get_results() ) ) {
                             $user_display_name="".$user->last_name." ".$user->first_name."";
                         }
                         ?>
-                        <h3>
+                        <p class="h3">
                         <?php echo $user_display_name;?>
-                        </h3>
+                        </p>
                         <?php 
                         if (get_field('poste', 'user_'.$user->ID) || get_field('userpage_block_show_tutelle') == true) { 
                         ?>
                         <p class="sedoo_userpage_position">
                             <?php 
                             if (get_field('poste', 'user_'.$user->ID)) {
-                                the_field('poste', 'user_'.$user->ID);
+                                echo get_field('poste', 'user_'.$user->ID);
                             }
                             ?>
                             
@@ -125,7 +125,7 @@ if ( ! empty( $utilisateurs->get_results() ) ) {
                                 if (get_field('tutelle', 'user_'.$user->ID) || get_field('grade', 'user_'.$user->ID) ) { 
                                 ?>                                
                                     <em>
-                                        <?php the_field('grade', 'user_'.$user->ID);?> <?php the_field('tutelle', 'user_'.$user->ID);?>
+                                        <?php echo get_field('grade', 'user_'.$user->ID);?> <?php echo get_field('tutelle', 'user_'.$user->ID);?>
                                     </em>
                                 <?php 
                                 }

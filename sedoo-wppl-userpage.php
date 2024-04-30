@@ -7,7 +7,7 @@
  * Author URI:      https://www.sedoo.fr 
  * Text Domain:     sedoo-wppl-userpage
  * Domain Path:     /languages
- * Version:         1.4.0
+ * Version:         1.5.0
  * GitHub Plugin URI: sedoo/sedoo-wppl-userpage
  * GitHub Branch:     master
  * @package         Sedoo_Wppl_Userpage
@@ -211,7 +211,7 @@ function sedoo_userpage_displayACF_content($fieldName, $userID, $checked) {
         <input type="checkbox" name="tabs" id="<?php echo $fieldName;?>" />
         <label for="<?php echo $fieldName;?>" id="<?php echo $fieldName;?>Tab" role="tab" aria-controls="<?php echo $fieldName;?>panel"><?php echo sedoo_userpage_displayACF_title($fieldName);?></label>
         <article id="<?php echo $fieldName;?>panel" role="tabpanel" aria-labelledby="<?php echo $fieldName;?>Tab">
-            <?php the_field($fieldName, 'user_'.$userID);?>
+            <?php echo get_field($fieldName, 'user_'.$userID);?>
         </article>
     </section>
     <?php } 
